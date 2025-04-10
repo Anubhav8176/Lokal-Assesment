@@ -2,6 +2,7 @@ package com.anucodes.lokal_assessment.ui
 
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,9 +19,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.anucodes.lokal_assessment.bookmarkJob.BookmarkEntity
@@ -41,11 +44,30 @@ fun BookmarkScreen(
             .fillMaxSize()
             .padding(10.dp)
     ) {
-        LazyColumn {
-            items(bookmarkJobs.size) { index->
-                Log.i("The data is: ", bookmarkJobs[index].toString())
-                if (bookmarkJobs[index].title != null) {
-                    BookmarkJobInformation(jobDetails = bookmarkJobs[index], jobsViewModel = jobsViewModel)
+        if (bookmarkJobs.isEmpty()){
+            Column (
+                modifier = modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ){
+                Text(
+                    text = "Nothing to show here!! Add some bookmark.",
+                    modifier = modifier
+                        .fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    fontSize = 18.sp,
+                    fontFamily = poppinsFamily,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }else{
+            LazyColumn {
+                items(bookmarkJobs.size) { index->
+                    Log.i("The data is: ", bookmarkJobs[index].toString())
+                    if (bookmarkJobs[index].title != null) {
+                        BookmarkJobInformation(jobDetails = bookmarkJobs[index], jobsViewModel = jobsViewModel)
+                    }
                 }
             }
         }
