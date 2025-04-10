@@ -1,6 +1,9 @@
 package com.anucodes.lokal_assessment.ui
 
+import android.os.Build
 import android.util.Log
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -30,7 +34,10 @@ import com.anucodes.lokal_assessment.bookmarkJob.BookmarkEntity
 import com.anucodes.lokal_assessment.core.viewmodel.JobsViewModel
 import com.anucodes.lokal_assessment.networking.model.Result
 import com.anucodes.lokal_assessment.ui.theme.poppinsFamily
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun BookmarkScreen(
     modifier: Modifier = Modifier,
@@ -75,12 +82,16 @@ fun BookmarkScreen(
 
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun BookmarkJobInformation(
     modifier: Modifier = Modifier,
     jobDetails: BookmarkEntity,
     jobsViewModel: JobsViewModel
 ) {
+
+    val context = LocalContext.current
+
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -120,10 +131,17 @@ fun BookmarkJobInformation(
                 fontSize = 18.sp,
                 fontFamily = poppinsFamily
             )
+
+            Text(
+                text = "Expires on: ${extractDate(jobDetails.expiredOn)}",
+                fontSize = 18.sp,
+                fontFamily = poppinsFamily
+            )
             Button(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
                     jobsViewModel.deleteBookmark(jobDetails)
+                    Toast.makeText(context, "Bookmark added!", Toast.LENGTH_SHORT).show()
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Transparent,

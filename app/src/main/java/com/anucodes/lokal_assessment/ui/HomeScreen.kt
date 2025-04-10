@@ -2,7 +2,10 @@ package com.anucodes.lokal_assessment.ui
 
 import android.content.Intent
 import android.util.Log
+import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -47,29 +51,39 @@ fun HomeScreen(
             .fillMaxSize()
             .padding(10.dp)
     ) {
-
         if (error){
-            Text(
-                text = "Failed to load the data!",
-                fontSize = 18.sp,
-                fontFamily = poppinsFamily,
-                fontWeight = FontWeight.Bold
-            )
-
-            Button(
-                modifier = Modifier.fillMaxWidth(),
-                onClick = {
-                    jobsViewModel.getAllJobs()
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.Transparent,
-                    contentColor = Color.Gray
-                ),
-                border = BorderStroke(1.dp, Color.Gray)
+            Column(
+                modifier = modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Refresh Now!!!!"
+                    text = "Failed to load the data!",
+                    fontSize = 18.sp,
+                    fontFamily = poppinsFamily,
+                    fontWeight = FontWeight.Bold
                 )
+
+                Button(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        jobsViewModel.getAllJobs()
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Transparent,
+                        contentColor = Color.Gray
+                    ),
+                    border = BorderStroke(2.dp, Color.Black)
+                ) {
+                    Text(
+                        text = "Refresh Now!!!!",
+                        fontSize = 18.sp,
+                        fontFamily = poppinsFamily,
+                        color = Color.Black,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
         }else{
             LazyColumn {
@@ -155,6 +169,7 @@ fun JobInformation(
                     )
 
                     jobsViewModel.addBookmark(bookmarkEntity)
+                    Toast.makeText(context, "Bookmark added!", Toast.LENGTH_SHORT).show()
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Transparent,

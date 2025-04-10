@@ -1,5 +1,7 @@
 package com.anucodes.lokal_assessment.ui
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,7 +20,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.anucodes.lokal_assessment.networking.model.Result
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun JobDetailsScreen(result: Result) {
     Column(
@@ -35,8 +40,8 @@ fun JobDetailsScreen(result: Result) {
         )
 
         InfoCard("Company", result.company_name)
-        InfoCard("Posted On", result.created_on)
-        InfoCard("Expires On", result.expire_on)
+        InfoCard("Posted On", extractDate(result.created_on))
+        InfoCard("Expires On", extractDate(result.expire_on))
         InfoCard("Experience (Years)", result.experience.toString())
         InfoCard("Applications", result.num_applications.toString())
         InfoCard("Openings", result.openings_count.toString())
@@ -55,7 +60,6 @@ fun JobDetailsScreen(result: Result) {
         )
 
         InfoCard("Experience", result.primary_details.Experience)
-        InfoCard("Fees Charged", result.primary_details.Fees_Charged)
         InfoCard("Job Type", result.primary_details.Job_Type)
         InfoCard("Place", result.primary_details.Place)
         InfoCard("Qualification", result.primary_details.Qualification)
@@ -98,4 +102,10 @@ fun InfoCard(label: String, value: String) {
             )
         }
     }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun extractDate(timestamp: String): String {
+    val dateTime = OffsetDateTime.parse(timestamp)
+    return dateTime.format(DateTimeFormatter.ISO_LOCAL_DATE)  // Outputs YYYY-MM-DD
 }

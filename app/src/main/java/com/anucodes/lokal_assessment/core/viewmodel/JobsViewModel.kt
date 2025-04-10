@@ -59,7 +59,7 @@ class JobsViewModel(
         viewModelScope.launch {
             bookmarkDb.addBookmark(bookmarkEntity)
             getBookmark()
-            Log.i("Book mark", bookmarkEntity.toString())
+            Log.i("Book mark add: ", bookmarkEntity.toString())
         }
     }
 
@@ -67,7 +67,7 @@ class JobsViewModel(
         viewModelScope.launch {
             bookmarkDb.deleteBookmarkJob(bookmarkEntity)
             getBookmark()
-            Log.i("Book mark", bookmarkEntity.toString())
+            Log.i("Book mark delete: ", bookmarkEntity.toString())
         }
     }
 
